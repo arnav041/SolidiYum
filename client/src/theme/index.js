@@ -1,20 +1,32 @@
-import {createTheme} from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 
-const navyBlue = "#0D0F32";
-const pink = "#cc57c7";
+const purple = "#0D0F32";
+const pink = "#FC5FFF";
 
 
 export default createTheme({
-    palette : {
+    palette: {
         common: {
-            navyblue: navyBlue, 
+            purple: purple,
             pink: pink
         },
         primary: {
-            main: navyBlue
+            main: purple
         },
         secondary: {
             main: pink
         }
+    },
+    typography: {
+        button: {
+            textTransform: "none",
+            fontFamily: "Press Start 2P, cursive",
+            fontWeight: 700,
+            fontSize: "1rem"
+        },
+        fontFamily: [ 
+            "Poppins, sans-serif",
+            "Press Start 2P, cursive"
+        ]
     }
 })

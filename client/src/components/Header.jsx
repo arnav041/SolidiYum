@@ -1,23 +1,68 @@
-import { PageHeader } from "antd";
 import React from "react";
+import { AppBar, Button, CssBaseline, makeStyles, Toolbar, useScrollTrigger } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import logo from "../soLogo.png"
 
-// displays a page header
+function ElevationScroll(props) {
+  const { children } = props;
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 0,
+  });
 
-export default function Header({link, title, subTitle}) {
-  return (
-    <a href={link} target="_blank" rel="noopener noreferrer">
-      <PageHeader
-        title={title}
-        subTitle={subTitle}
-        style={{ cursor: "pointer" }}
-      />
-    </a>
-  );
+  return React.cloneElement(children, {
+    elevation: trigger ? 4 : 0,
+  });
 }
 
+const useStyles = makeStyles((theme) => ({
+  logo: {
+    height: '10em'
+  },
+  logoContainer: {
+    padding: 0,
+    marginLeft: "0.8em"
+  },
+  appbar: {
+    paddingLeft: "2em",
+    paddingRight: "2em",
+  },
+  accountButton: {
+    ...theme.typography.button,
+    marginLeft: "auto",
+    height: "4em",
+    width: "16em",
+    color: theme.palette.common.pink
+  }
+}))
 
-Header.defaultProps = {
-  link: "https://github.com/austintgriffith/scaffold-eth",
-  title: "🏗 scaffold-eth",
-  subTitle: "forkable Ethereum dev stack focused on fast product iteration",
+
+export default function Header() {
+  const styles = useStyles()
+  return (
+    <React.Fragment>
+      {/* <CssBaseline /> */}
+      <ElevationScroll>
+        <AppBar position="fixed" color="primary" className={styles.appbar} >
+          <Toolbar disableGutters>
+            <Button
+              component={Link}
+              to="/"
+              className={styles.logoContainer}
+              disableRipple
+            >
+              <img
+                src={logo}
+                className={styles.logo}
+                alt="solidiyumlogo"
+              />
+            </Button>
+             <Button variant="outlined" color="secondary" className={styles.accountButton} >
+                Connect 
+             </Button>
+          </Toolbar>
+        </AppBar>
+      </ElevationScroll>
+    </React.Fragment>
+  )
 }
