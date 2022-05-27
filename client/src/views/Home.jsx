@@ -1,45 +1,122 @@
-import React from 'react';
-import { makeStyles, useTheme } from "@material-ui/styles";
-import { Container, Grid, List, ListItemText } from '@material-ui/core';
-import { Typography } from 'antd';
+import React, { useState } from 'react';
+import { makeStyles, useTheme, withStyles } from "@material-ui/styles";
+import { Box, Container, Grid, List, ListItemText, ListItem, Tab, Typography, Tabs } from '@material-ui/core';
+import PropTypes from 'prop-types';
+
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`scrollable-auto-tabpanel-${index}`}
+      aria-labelledby={`scrollable-auto-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
 
 
 const useStyles = makeStyles((theme) => ({
-  homeContainer: {
-    marginTop: "12em",
-    padding: "3em",
-    // backgroundColor: "orange"
+  mainContainer: {
+    margin: "12em auto 0",
+    padding: "5em ",
+    maxWidth: 1620,
+    // background: "#aaed4a"
   },
-  sectionContainer: {
-    margin: "2em",
+  sectionWrapper: {
+    width: "100%",
+    color: "rgb(31, 31, 31)",
+    background: "rgb(244, 244, 245)",
+    boxShadow: "rgb(218 218 222) 1px 1px 2px, rgb(255 255 255) -1px -1px 2px",
+    padding: "3em"
   },
-  backgroundImage: {
+  listItem: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start'
+  },
+  primaryListText: {
+    ...theme.typography.h2,
 
   },
-  gridContainer: {
-    padding: "3em 2.5em" ,
-    margin: 0,
-    marginTop: "2em",
-    backgroundColor: "white",
-    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-    backgroundColor: "rgba(255, 255, 255, .15)",  
-    backdropFilter: "blur(5px)"
-  },
-
+  tabRoot: {
+    flexGrow: 1,
+    width: '100%',
+  }
 }))
-
 
 export default function Home() {
   const styles = useStyles()
   const theme = useTheme()
+  const [tab, setTab] = useState(0)
+  const handleTabChange = (event, newValue) => {
+    setTab(newValue)
+  }
   return (
-    <Container maxWidth="lg" className={styles.homeContainer} >
-      <div className={styles.sectionContainer}  >
-        <div className={styles.backgroundImage} />
-        <Grid container  wrap='nowrap' className={styles.gridContainer} >
+    <div className={styles.mainContainer} >
+      <section>
+        <Grid container spacing={3}  >
+          <Grid item xs={12} lg={4} >
+            <Box className={styles.sectionWrapper} >
+              <List>
+                <ListItem disableGutters className={styles.listItem}  >
+                  <Typography variant="h2" className={styles.primaryListText} >Total tokens</Typography>
+                  <Typography variant="h3" className={styles.secondaryListText} >200,000</Typography>
+                </ListItem>
+                <ListItem disableGutters className={styles.listItem}  >
+                  <Typography variant="h2" className={styles.primaryListText} >Total tokens</Typography>
+                  <Typography variant="h3" className={styles.secondaryListText} >200,000</Typography>
+                </ListItem>
+                <ListItem disableGutters className={styles.listItem}  >
+                  <Typography variant="h2" className={styles.primaryListText} >Total tokens</Typography>
+                  <Typography variant="h3" className={styles.secondaryListText} >200,000</Typography>
+                </ListItem>
+
+              </List>
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={8} >
+            <Box className={styles.sectionWrapper} >
+              <Tabs
+                value={tab}
+                indicatorColor="primary"
+                textColor="primary"
+                onChange={handleTabChange}
+                aria-label="disabled tabs example"
+                disableRipple
+              >
+                <Tab label="State" />
+                <Tab label="Withdraw" />
+              </Tabs>
+              <TabPanel value={tab} index={0}>
+                Item One
+              </TabPanel>
+              <TabPanel value={tab} index={1}>
+                Item Two
+              </TabPanel>
+              <TabPanel value={tab} index={2}>
+                Item Three
+              </TabPanel>
+            </Box>
+          </Grid>
         </Grid>
-      </div>
-    </Container>
+      </section>
+    </div>
   )
 }
 
